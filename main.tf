@@ -45,7 +45,7 @@ resource "aws_s3_bucket" "test_s3" {
 # Upload the CSV file to the S3 bucket
 resource "aws_s3_bucket_object" "test_csv" {
   bucket = aws_s3_bucket.test_s3.id
-  key    = "test_csv.csv"
+  key    = "demofile.csv"
 #   source = "path/to/demofile.csv"
   source = "C/:Userssalpandey/Downloads/demofile.csv" 
 }
