@@ -65,7 +65,7 @@ resource "aws_lambda_function" "test_lambda" {
       RDS_USERNAME = aws_db_instance.test_rds.username
       RDS_PASSWORD = aws_db_instance.test_rds.password
       S3_BUCKET    = aws_s3_bucket.test_s3.id
-      S3_KEY       = aws_s3_bucket_object.test_s3.key
+      S3_KEY       = aws_s3_bucket_object.test_csv.key
     }
   }
 }
