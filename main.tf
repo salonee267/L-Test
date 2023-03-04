@@ -1,4 +1,3 @@
-
 resource "aws_db_instance" "test_rds" {
   allocated_storage    = 10
   db_name              = "test_db"
@@ -48,13 +47,23 @@ resource "aws_s3_bucket_object" "test_csv" {
   key    = "demofile.csv"
 #   source = "path/to/demofile.csv"
   source = "C/:Userssalpandey/Downloads/demofile.csv" 
+  depends_on = [
+    aws_s3_bucket.test_s3
+  ]
+}
+
+data "archive_file" "create_function_zip"{
+type = "zip"
+source_dir = "./lep-demo"
+output_path = "./lambdademo.zip"
 }
 
 resource "aws_lambda_function" "test_lambda" {
-  filename      = "test_lambda_function.zip"
+  source_code_hash = filemd5("./lambdademo.zip")  
+  filename      = "./lambdademo.zip"  ##give full local path
   function_name = "test-function"
-  role          = "arn:aws:iam::123456789012:role/lambda-role"
-  handler       = "lambda_function.lambda_handler"
+  role          = "arn:aws:iam::123456789012:role/lambda-role"   ##iam role -- with permission to lambda, s3, rds
+  handler       = "lambdademo.lambda_handler"
   runtime       = "python3.7"
 
   environment {
@@ -68,6 +77,9 @@ resource "aws_lambda_function" "test_lambda" {
       S3_KEY       = aws_s3_bucket_object.test_csv.key
     }
   }
+  depends_on = [
+    data.archive_file.create_function_zip
+  ]
 }
 # Define the code for the Lambda function
 // import csv
