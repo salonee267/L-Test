@@ -59,7 +59,7 @@ output_path = "./lambdademo.zip"
 }
 
 resource "aws_lambda_function" "test_lambda" {
-  source_code_hash = filemd5("./lambdademo.zip")  
+#   source_code_hash = filemd5("./lambdademo.zip")  
   filename      = "./lambdademo.zip"  ##give full local path
   function_name = "test-function"
   role          = "arn:aws:iam::123456789012:role/lambda-role"   ##iam role -- with permission to lambda, s3, rds
