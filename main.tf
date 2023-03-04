@@ -128,5 +128,5 @@ resource "aws_cloudwatch_event_rule" "example" {
   name        = "example-rule"
   description = "Trigger the example Lambda function every hour"
 
-  schedule_expression = "cron(0 * * *)"
+  schedule_expression = "cron(0 * * * ? *)"
 }
