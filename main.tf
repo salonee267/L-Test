@@ -45,8 +45,8 @@ resource "aws_s3_bucket" "test_s3" {
 resource "aws_s3_bucket_object" "test_csv" {
   bucket = aws_s3_bucket.test_s3.id
   key    = "demofile.csv"
-#   source = "path/to/demofile.csv"
-  source = "C/:Userssalpandey/Downloads/demofile.csv" 
+  source = "./demofile.csv.xlsx"
+#   source = "C/:Userssalpandey/Downloads/demofile.csv" 
   depends_on = [
     aws_s3_bucket.test_s3
   ]
