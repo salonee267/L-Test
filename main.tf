@@ -33,6 +33,8 @@ resource "aws_db_instance" "my_table" {
   username       = "exampleuser"
   password       = "examplepassword"
   port           = 3306
+  skip_final_snapshot  = true
+  deletion_protection  = false
 
   tags = {
     Name = "my_table"
