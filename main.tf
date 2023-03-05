@@ -10,6 +10,19 @@ resource "aws_db_instance" "test_rds" {
   deletion_protection  = false
   skip_final_snapshot  = true
   final_snapshot_identifier = "myfinalsnapshot"
+  
+  # Create a table named "my_table" with columns "col1", "col2", and "col3"
+  provisioner "local-exec" {
+    command = <<EOT
+      mysql -h ${aws_db_instance.example.endpoint} -u ${var.username} -p${var.password} -e "
+        CREATE TABLE my_table (
+          col1 VARCHAR(255),
+          col2 VARCHAR(255),
+          col3 VARCHAR(255)
+        );
+      "
+    EOT
+  }
 }
 
 resource "aws_security_group" "test_rds_secgroup" {
@@ -22,28 +35,28 @@ resource "aws_security_group" "test_rds_secgroup" {
   }
 }
 
-resource "aws_db_instance" "my_table" {
-  count = 1
+# resource "aws_db_instance" "my_table" {
+#   count = 1
 
-  db_name        = "test_db"
-  allocated_storage = 10
-  engine         = "mysql"
-  instance_class = "db.t2.micro"
-  identifier     = "my-table-${count.index}"
-  username       = "exampleuser"
-  password       = "examplepassword"
-  port           = 3306
-  skip_final_snapshot  = true
-  deletion_protection  = false
+#   db_name        = "test_db"
+#   allocated_storage = 10
+#   engine         = "mysql"
+#   instance_class = "db.t2.micro"
+#   identifier     = "my-table-${count.index}"
+#   username       = "exampleuser"
+#   password       = "examplepassword"
+#   port           = 3306
+#   skip_final_snapshot  = true
+#   deletion_protection  = false
 
-  tags = {
-    Name = "my_table"
-  }
+#   tags = {
+#     Name = "my_table"
+#   }
 
-  provisioner "local-exec" {
-    command = "mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -p salonee123 -e 'CREATE TABLE my_table (col1 varchar(255), col2 varchar(255), col3 varchar(255));'"
-  }
-}
+#   provisioner "local-exec" {
+#     command = "mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -p salonee123 -e 'CREATE TABLE my_table (col1 varchar(255), col2 varchar(255), col3 varchar(255));'"
+#   }
+# }
 
 
 ############################################################################################################
