@@ -8,7 +8,7 @@ resource "aws_db_instance" "test_rds" {
   password             = "salonee123"
   parameter_group_name = "default.mysql5.7"
   deletion_protection  = false
-  skip_final_snapshot  = false
+  skip_final_snapshot  = true
   final_snapshot_identifier = "myfinalsnapshot"
 }
 
