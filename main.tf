@@ -51,7 +51,7 @@ resource "aws_security_group" "test_rds_secgroup" {
 
 #   tags = {
 #     Name = "my_table"
-#   }
+#   } 
 
 #   provisioner "local-exec" {
 #     command = "mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -p salonee123 -e 'CREATE TABLE my_table (col1 varchar(255), col2 varchar(255), col3 varchar(255));'"
