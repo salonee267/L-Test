@@ -1,6 +1,6 @@
 resource "aws_db_instance" "test_rds" {
   allocated_storage    = 10
-  db_name              = "test_db"
+  db_name              = "salonee_db"
   engine               = "mysql"
   engine_version       = "5.7"
   instance_class       = "db.t3.micro"
