@@ -1,28 +1,45 @@
-resource "aws_db_instance" "test_rds" {
-  allocated_storage    = 10
-  db_name              = "salonee_db"
-  engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t3.micro"
-  username             = "salonee"
-  password             = "salonee123"
-  parameter_group_name = "default.mysql5.7"
-  deletion_protection  = false
-  skip_final_snapshot  = true
-  final_snapshot_identifier = "myfinalsnapshot"
+# resource "aws_db_instance" "test_rds" {
+#   allocated_storage    = 10
+#   db_name              = "salonee_db"
+#   engine               = "mysql"
+#   engine_version       = "5.7"
+#   instance_class       = "db.t3.micro"
+#   username             = "salonee"
+#   password             = "salonee123"
+#   parameter_group_name = "default.mysql5.7"
+#   deletion_protection  = false
+#   skip_final_snapshot  = true
+#   final_snapshot_identifier = "myfinalsnapshot"
   
-  # Create a table named "my_table" with columns "col1", "col2", and "col3"
-  provisioner "local-exec" {
-    command = <<EOT
-      mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -p salonee123 -e "
-        CREATE TABLE my_table (
-          col1 VARCHAR(255),
-          col2 VARCHAR(255),
-          col3 VARCHAR(255)
-        );
-      "
-    EOT
-  }
+#   # Create a table named "my_table" with columns "col1", "col2", and "col3"
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -p salonee123 -e "
+#         CREATE TABLE my_table (
+#           col1 VARCHAR(255),
+#           col2 VARCHAR(255),
+#           col3 VARCHAR(255)
+#         );
+#       "
+#     EOT
+#   }
+# }
+
+resource "aws_db_instance" "testing_rds" {
+  allocated_storage    = 10
+  engine               = "mysql"
+  engine_version       = "5.7"
+  instance_class       = "db.t2.micro"
+  name                 = "salonee_rds"
+  username             = "salonee"
+  password             = "salonee123"
+} resource "aws_db_instance" "salonee_rds_table" {
+  name                 = "salonee_table"
+  username             = "salonee"
+  password             = "salonee123"
+  db_name              = "salonee_db"   provisioner "local-exec" {
+    command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
+  }
 }
 
 resource "aws_security_group" "test_rds_secgroup" {
