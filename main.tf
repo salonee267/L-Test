@@ -33,6 +33,8 @@
    name                 = "testing_rds"
    username             = "salonee"
    password             = "salonee123"
+   
+   vpc_security_group_ids = [ aws_security_group.test_rds_secgroup.id ]
  }
 
  resource "aws_db_instance" "salonee_rds_table" {
@@ -40,8 +42,9 @@
    username             = "salonee"
    password             = "salonee123"
    db_name              = "example_db"
+   vpc_security_group_ids =   [ aws_security_group.test_rds_secgroup.id ]
    provisioner "local-exec" {
-     command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
+     command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -P 3306 -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
    }
  }
 
