@@ -119,11 +119,11 @@ resource "aws_lambda_function" "test_lambda" {
 
   environment {
     variables = {
-      RDS_HOST     = aws_db_instance.test_rds.endpoint
-      RDS_PORT     = aws_db_instance.test_rds.port
-      RDS_DB_NAME  = aws_db_instance.test_rds.name
-      RDS_USERNAME = aws_db_instance.test_rds.username
-      RDS_PASSWORD = aws_db_instance.test_rds.password
+      RDS_HOST     = aws_db_instance.testing_rds.endpoint
+      RDS_PORT     = aws_db_instance.testing_rds.port
+      RDS_DB_NAME  = aws_db_instance.testing_rds.name
+      RDS_USERNAME = aws_db_instance.testing_rds.username
+      RDS_PASSWORD = aws_db_instance.testing_rds.password
       S3_BUCKET    = aws_s3_bucket.test_s3.id
       S3_KEY       = aws_s3_bucket_object.test_csv.key
     }
