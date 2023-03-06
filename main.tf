@@ -14,7 +14,7 @@ resource "aws_db_instance" "test_rds" {
   # Create a table named "my_table" with columns "col1", "col2", and "col3"
   provisioner "local-exec" {
     command = <<EOT
-      mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -psalonee123 -e "
+      mysql -h ${aws_db_instance.test_rds.endpoint} -u salonee -p salonee123 -e "
         CREATE TABLE my_table (
           col1 VARCHAR(255),
           col2 VARCHAR(255),
