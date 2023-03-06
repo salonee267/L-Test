@@ -25,22 +25,29 @@
 #   }
 # }
 
-resource "aws_db_instance" "testing_rds" {
-  allocated_storage    = 10
-  engine               = "mysql"
-  engine_version       = "5.7"
-  instance_class       = "db.t2.micro"
-  name                 = "salonee_rds"
-  username             = "salonee"
-  password             = "salonee123"
-} resource "aws_db_instance" "salonee_rds_table" {
-  name                 = "salonee_table"
-  username             = "salonee"
-  password             = "salonee123"
-  db_name              = "salonee_db"   provisioner "local-exec" {
-    command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
-  }
-}
+ resource "aws_db_instance" "testing_rds" {
+   allocated_storage    = 10
+   db_name              = "salonee_db"
+   engine               = "mysql"
+   engine_version       = "5.7"
+   instance_class       = "db.t2.micro"
+   username             = "salonee"
+   password             = "salonee123"
+ }
+
+ resource "aws_db_instance" "salonee_rds_table" {
+   allocated_storage    = 10
+   db_name              = "salonee_table"
+   engine               = "mysql"
+   engine_version       = "5.7"
+   instance_class       = "db.t2.micro"
+   username             = "salonee"
+   password             = "salonee123"
+   provisioner "local-exec" {
+     command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
+   }
+ }
+
 
 resource "aws_security_group" "test_rds_secgroup" {
   name_prefix = "test-rds-"
