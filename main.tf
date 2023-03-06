@@ -1,44 +1,44 @@
-#  resource "aws_db_instance" "test_rds" {
-#    allocated_storage    = 10
-#    db_name              = "salonee_db"
-#    engine               = "mysql"
-#    engine_version       = "5.7"
-#    instance_class       = "db.t2.micro"
-#    username             = "salonee"
-#    password             = "salonee123"
-#    parameter_group_name = "default.mysql5.7"
-#    deletion_protection  = false
-#    skip_final_snapshot  = true
-#    final_snapshot_identifier = "myfinalsnapshot"
- 
-#    # Create a table named "my_table" with columns "col1", "col2", and "col3"
-#    provisioner "local-exec" {
-#      command = "mysql -h ${aws_db_instance.example.endpoint} -u admin -p${aws_db_instance.example.password} -e 'CREATE TABLE example_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
-#    }
-#    }
-#  }
-
-  resource "aws_db_instance" "testing_rds" {
+  resource "aws_db_instance" "test_rds" {
     allocated_storage    = 10
+    db_name              = "salonee_db"
     engine               = "mysql"
     engine_version       = "5.7"
     instance_class       = "db.t2.micro"
-    name                 = "testing_rds"
     username             = "salonee"
     password             = "salonee123"
-    vpc_security_group_ids = [ aws_security_group.test_rds_secgroup.id ]
-  }
+    parameter_group_name = "default.mysql5.7"
+    deletion_protection  = false
+    skip_final_snapshot  = true
+    final_snapshot_identifier = "myfinalsnapshot"
 
-  resource "aws_db_instance" "salonee_rds_table" {
-    name                 = "testing_rds"
-    username             = "salonee"
-    password             = "salonee123"
-    db_name              = "example_db"
-    vpc_security_group_ids = [ aws_security_group.test_rds_secgroup.id ]
+    # Create a table named "my_table" with columns "col1", "col2", and "col3"
     provisioner "local-exec" {
-      command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -P 3306 -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
+      command = "mysql -h ${aws_db_instance.test_rds.endpoint} -P 3306 -u salonee_rds -p${aws_db_instance.test_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
+    }
     }
   }
+
+#   resource "aws_db_instance" "testing_rds" {
+#     allocated_storage    = 10
+#     engine               = "mysql"
+#     engine_version       = "5.7"
+#     instance_class       = "db.t2.micro"
+#     name                 = "testing_rds"
+#     username             = "salonee"
+#     password             = "salonee123"
+#     vpc_security_group_ids = [ aws_security_group.test_rds_secgroup.id ]
+#   }
+
+#   resource "aws_db_instance" "salonee_rds_table" {
+#     name                 = "testing_rds"
+#     username             = "salonee"
+#     password             = "salonee123"
+#     db_name              = "example_db"
+#     vpc_security_group_ids = [ aws_security_group.test_rds_secgroup.id ]
+#     provisioner "local-exec" {
+#       command = "mysql -h ${aws_db_instance.testing_rds.endpoint} -P 3306 -u salonee_rds -p${aws_db_instance.testing_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
+#     }
+#   }
 
 
 
