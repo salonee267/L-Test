@@ -15,7 +15,6 @@
     provisioner "local-exec" {
       command = "mysql -h ${aws_db_instance.test_rds.endpoint} -P 3306 -u salonee_rds -p${aws_db_instance.test_rds.password} -e 'CREATE TABLE salonee_rds_table (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(30) NOT NULL, PRIMARY KEY (id))';"
     }
-    }
   }
 
 #   resource "aws_db_instance" "testing_rds" {
