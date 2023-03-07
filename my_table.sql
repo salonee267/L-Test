@@ -1,4 +1,4 @@
-USE exampledb;
+USE test_rds;
 
 CREATE TABLE example_table (
   id INT NOT NULL AUTO_INCREMENT,
