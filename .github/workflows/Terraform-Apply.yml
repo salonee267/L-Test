@@ -20,7 +20,7 @@ jobs:
         run: |
           ls
           python -m pip install --upgrade pip
-          pip install pymysql-t lambda_function/
+          pip install pymysql -t lambda_function/
       - name: Terraform Init
         id: init
         run: terraform init
