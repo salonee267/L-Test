@@ -9,7 +9,7 @@ ENDPOINT = ''
 PORT = 3306
 USR = 'admin'
 REGION = 'eu-west-1'
-DBNAME = 'exampledb'
+DBNAME = 'testdb'
 PASSWORD = 'password'
 TABLE_NAME = 'example_table'
 
