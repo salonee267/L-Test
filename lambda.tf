@@ -22,10 +22,10 @@ resource "aws_lambda_function" "source" {
       ENDPOINT = var.endpoint
       PORT = 3306
       USR = var.lambda_user
-      REGION = 'eu-west-1'
+      REGION = "eu-west-1"
       DBNAME = var.dbname
       PASSWORD = var.password
-      TABLE_NAME = 'example_table'
+      TABLE_NAME = "example_table"
     }
   }
 }
