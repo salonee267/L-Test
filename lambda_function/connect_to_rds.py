@@ -5,13 +5,13 @@ import io
 import boto3
 
 # RDS endpoint details
-ENDPOINT = ''
-PORT = 3306
-USR = 'admin'
-REGION = 'eu-west-1'
-DBNAME = 'testdb'
-PASSWORD = 'password'
-TABLE_NAME = 'example_table'
+# ENDPOINT = ''
+# PORT = 3306
+# USR = 'admin'
+# REGION = 'eu-west-1'
+# DBNAME = 'testdb'
+# PASSWORD = 'password'
+# TABLE_NAME = 'example_table'
 
 # Connect to the RDS instance
 try:
