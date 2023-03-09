@@ -13,6 +13,7 @@ variable "allocated_storage" {
 variable "db_name" {
   description = "The name of the database to create when the DB instance is created"
   type        = string
+  default     = "testdb"
 }
 
 variable "username" {
@@ -35,7 +36,8 @@ variable "bucket_name" {
 variable "lambda_role" {
   description = "arn of the lambda role for S3 and RDS"
   type        = string
-  default     = "arn:aws:iam::645240902082:role/LambdaRoleForS3andRDS"
+#   default     = "arn:aws:iam::645240902082:role/LambdaRoleForS3andRDS"
+  default     = "arn:aws:iam::058399968204:role/LambdaRoleForS3andRDS_prod"
 }
 
 
