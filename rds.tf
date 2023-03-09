@@ -3,12 +3,12 @@ resource "aws_db_instance" "test_rds" {
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
   skip_final_snapshot  = true
-  identifier           = "testdb"
-  allocated_storage    = 10
-  db_name              = "testdb"
+  identifier           = var.identifier
+  allocated_storage    = var.allocated_storage
+  db_name              = var.db_name
   publicly_accessible  = true
-  username             = "admin"
-  password             = "password"
+  username             = var.username
+  password             = var.password
   vpc_security_group_ids = [ aws_security_group.rds_sec_grp.id]
 
   provisioner "local-exec" {
