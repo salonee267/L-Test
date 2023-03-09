@@ -17,6 +17,17 @@ resource "aws_lambda_function" "source" {
   # lifecycle {
   #   ignore_changes = ["source_code_hash"]
   # }
+  environment {
+    variables = {
+      ENDPOINT = var.endpoint
+      PORT = 3306
+      USR = var.lambda_user
+      REGION = 'eu-west-1'
+      DBNAME = var.dbname
+      PASSWORD = var.password
+      TABLE_NAME = 'example_table'
+    }
+  }
 }
 
 resource "aws_lambda_permission" "allow_bucket" {
