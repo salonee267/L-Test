@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "lep_demo" {
-   bucket = "lep-demo-s3-bucket-1234"
+   bucket = "lep-demo-s3-bucket-1234765"
    acl    = "private"
 
    versioning {
