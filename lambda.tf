@@ -18,11 +18,11 @@ resource "aws_lambda_function" "source" {
   # }
   environment {
     variables = {
-      ENDPOINT = var.endpoint
+      ENDPOINT = output.endpoint
       PORT = 3306
-      USR = var.lambda_user
+      USR = var.username
       REGION = "eu-west-1"
-      DBNAME = var.dbname
+      DBNAME = var.db_name
       PASSWORD = var.password
       TABLE_NAME = "example_table"
     }
