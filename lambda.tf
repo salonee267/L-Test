@@ -18,7 +18,7 @@ resource "aws_lambda_function" "source" {
   # }
   environment {
     variables = {
-      ENDPOINT = output.endpoint
+      ENDPOINT = "exampledb.cxuav85ncdmx.eu-west-1.rds.amazonaws.com"
       PORT = 3306
       USR = var.username
       REGION = "eu-west-1"
