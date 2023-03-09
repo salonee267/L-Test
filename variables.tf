@@ -31,7 +31,7 @@ variable "password" {
 variable "bucket_name" {
   description = "name of the bucket"
   type        = string
-  default     = "lep-demo-s3-bucket-1234"
+  default     = "lep-demo-s3-bucket-12356784"
 }
 
 variable "lambda_role" {
