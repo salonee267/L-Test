@@ -9,7 +9,7 @@ resource "aws_lambda_function" "source" {
   filename         = "lambda_function.zip"
   source_code_hash = "${data.archive_file.source.output_base64sha256}"
   function_name    = "connect_rds"
-  role             = "arn:aws:iam::645240902082:role/LambdaRoleForS3andRDS"
+  role             = var.lambda_role
   handler          = "connect_to_rds.lambda_handler"
   runtime          = "python3.8"
   timeout          = 120
