@@ -25,6 +25,7 @@ variable "username" {
 variable "password" {
   description = "Password for the DB user"
   type        = string
+  default     = "password"
 }
 
 variable "bucket_name" {
