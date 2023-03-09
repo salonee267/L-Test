@@ -1,4 +1,3 @@
-
 data "archive_file" "source" {
   type        = "zip"
   source_dir  = "${path.module}/lambda_function"
