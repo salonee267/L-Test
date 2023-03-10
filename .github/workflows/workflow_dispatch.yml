@@ -4,32 +4,36 @@ on:
   push:
     branches:
       - higher-environments
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to deploy'
-        required: true
-        default: 'staging'
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       description: 'Environment to deploy'
+  #       required: true
+  #       default: 'staging'
 
-env:
-  staging:
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID }}
-    AWS_REGION: "eu-west-1"
-    S3_BUCKET_NAME: "bucketforbackendstate"
-  prod:
-    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
-    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
-    AWS_REGION: "eu-west-1"
-    S3_BUCKET_NAME: "bucketforbackendstate-prod"
+# env:
+#   staging:
+#     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+#     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID }}
+#     AWS_REGION: "eu-west-1"
+#     S3_BUCKET_NAME: "bucketforbackendstate"
+#   prod:
+#     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
+#     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
+#     AWS_REGION: "eu-west-1"
+#     S3_BUCKET_NAME: "bucketforbackendstate-prod"
 
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'staging' }}
+    # if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'staging' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
+          aws-region: us-west-2 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       - name: Install dependencies
@@ -56,10 +60,14 @@ jobs:
         
   deploy-prod:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'prod' }}
+    # if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'prod' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
+          aws-region: us-west-2 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       - name: Install dependencies
