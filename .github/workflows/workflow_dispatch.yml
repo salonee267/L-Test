@@ -34,7 +34,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
           aws-region: eu-west-1
-          S3_BUCKET_NAME: "bucketforbackendstate" 
+          s3-bucket: "bucketforbackendstate" 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       - name: Install dependencies
@@ -69,7 +69,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
           aws-region: eu-west-1
-          S3_BUCKET_NAME: "bucketforbackendstate-prod"           
+          s3-bucket: "bucketforbackendstate-prod"           
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       - name: Install dependencies
