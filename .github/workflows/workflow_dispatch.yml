@@ -10,6 +10,7 @@ on:
         description: 'Environment to deploy'
         required: true
         default: 'staging'
+        # Add other options as needed
 
 env:
   STAGING:
@@ -52,9 +53,8 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/higher-environments'
         run: terraform apply -auto-approve
-
+        
   deploy-prod:
     runs-on: ubuntu-latest
     if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'prod' }}
@@ -76,12 +76,4 @@ jobs:
         id: plan
         if: github.event_name == 'push'
         run: terraform plan 
-        continue-on-error: false
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
-      - name: Terraform Apply
-        if: github.ref == 'refs/heads/higher-environments'
-        run: terraform apply -auto-approve
+        continue-on
