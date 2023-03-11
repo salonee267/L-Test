@@ -57,7 +57,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan
+        run: terraform plan -var-file=staging.tfvars
         continue-on-error: false
 
       - name: Terraform Plan Status
@@ -65,7 +65,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file=staging.tfvars
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -108,7 +108,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan
+        run: terraform plan -var-file=prod.tfvars
         continue-on-error: false
 
       - name: Terraform Plan Status
@@ -116,4 +116,4 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve -var-file=prod.tfvars
