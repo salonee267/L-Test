@@ -19,9 +19,9 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID }}
-      AWS_REGION: ${{ vars.AWS_REGION || "eu-west-1" }}
-      S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME || "bucketforbackendstate" }}
-      S3_OBJECT_KEY: "terraform.tfstate"
+      AWS_REGION: "eu-west-1"
+      S3_BUCKET_NAME: "bucketforbackendstate"
+      S3_OBJECT_KEY: "bucketforbackendstate.tfstate"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
