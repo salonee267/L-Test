@@ -3,9 +3,10 @@ import json
 import csv
 import io
 import boto3
+import os
 
 # RDS endpoint details
-# ENDPOINT = ''
+ ENDPOINT = os.environ["ENDPOINT"]
 # PORT = 3306
 # USR = 'admin'
 # REGION = 'eu-west-1'
