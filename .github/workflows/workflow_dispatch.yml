@@ -10,6 +10,10 @@ on:
         description: "Environment to deploy"
         required: true
         default: "staging"
+        type: choice
+        options:
+          - staging
+          - prod
 
 jobs:
   deploy-staging:
@@ -21,8 +25,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID }}
       AWS_REGION: ${{ vars.AWS_REGION || 'eu-west-1' }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME || 'bucketforbackendstate' }}
-      # AWS_REGION: "eu-west-1"
-      # S3_BUCKET_NAME: "bucketforbackendstate"
       S3_OBJECT_KEY: 'bucketforbackendstate.tfstate'
     steps:
       - name: Checkout code
@@ -74,8 +76,6 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
       AWS_REGION: ${{ vars.AWS_REGION || 'eu-west-1' }}
       S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME || 'bucketforbackendstate-prod' }}
-      # AWS_REGION: "eu-west-1"
-      # S3_BUCKET_NAME: "bucketforbackendstate-prod"
       S3_OBJECT_KEY: 'bucketforbackendstate-prod.tfstate'
     steps:
       - name: Checkout code
