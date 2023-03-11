@@ -1,4 +1,4 @@
-USE testdb;
+USE var.db_name;
 
 CREATE TABLE example_table (
   id INT NOT NULL AUTO_INCREMENT,
