@@ -1,4 +1,4 @@
-identifier = "test_db_staging"
+identifier = "testdb-staging"
 allocated_storage = 10
 db_name = "db_name_staging"
 username = "admin"

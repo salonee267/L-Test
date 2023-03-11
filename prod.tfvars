@@ -1,4 +1,4 @@
-identifier = "test_db_prod"
+identifier = "testdb-prod"
 allocated_storage = 10
 db_name = "db_name_prod"
 username = "admin"
