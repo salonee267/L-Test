@@ -4,52 +4,56 @@ on:
   push:
     branches:
       - higher-environments
-  # workflow_dispatch:
-  #   inputs:
-  #     environment:
-  #       description: 'Environment to deploy'
-  #       required: true
-  #       default: 'staging'
-
-# env:
-#   staging:
-#     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
-#     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID }}
-#     AWS_REGION: "eu-west-1"
-#     S3_BUCKET_NAME: "bucketforbackendstate"
-#   prod:
-#     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
-#     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
-#     AWS_REGION: "eu-west-1"
-#     S3_BUCKET_NAME: "bucketforbackendstate-prod"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        default: "staging"
 
 jobs:
   deploy-staging:
     runs-on: ubuntu-latest
-    # if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'staging' }}
+    environment: staging
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'staging' }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID }}
+      AWS_REGION: ${{ vars.AWS_REGION || "eu-west-1" }}
+      S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME || "bucketforbackendstate" }}
+      S3_OBJECT_KEY: "terraform.tfstate"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
-          aws-region: eu-west-1
-          # s3-bucket: "bucketforbackendstate" 
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+
       - name: Install dependencies
         run: |
           ls
           python -m pip install --upgrade pip
           pip install pymysql -t lambda_function/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Terraform Init
         id: init
-        run: terraform init --backend-config="bucket=bucketforbackendstate" -backend-config="key=bucketforbackendstate.tfstate"
+        run: >
+          terraform init
+            -backend-config="bucket=${S3_BUCKET_NAME}"
+            -backend-config="key=${S3_OBJECT_KEY}"
+            -backend-config="region=${AWS_REGION}"
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan 
+        run: terraform plan
         continue-on-error: false
 
       - name: Terraform Plan Status
@@ -58,33 +62,49 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        
+
   deploy-prod:
     runs-on: ubuntu-latest
-    # if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'prod' }}
+    environment: prod
+    if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.environment == 'prod' }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
+      AWS_REGION: ${{ vars.AWS_REGION || "eu-west-1" }}
+      S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME || "bucketforbackendstate-prod" }}
+      S3_OBJECT_KEY: "terraform.tfstate"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_KEY_ID_SEC_ACC }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID_SEC_ACC }}
-          aws-region: eu-west-1
-          # s3-bucket: "bucketforbackendstate-prod"           
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+
       - name: Install dependencies
         run: |
           ls
           python -m pip install --upgrade pip
           pip install pymysql -t lambda_function/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: >
+          terraform init
+            -backend-config="bucket=${S3_BUCKET_NAME}"
+            -backend-config="key=${S3_OBJECT_KEY}"
+            -backend-config="region=${AWS_REGION}"
 
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan 
+        run: terraform plan
         continue-on-error: false
 
       - name: Terraform Plan Status
