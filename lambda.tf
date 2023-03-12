@@ -18,7 +18,7 @@ resource "aws_lambda_function" "source" {
   # }
   environment {
     variables = {
-#       ENDPOINT = "exampledb.cxuav85ncdmx.eu-west-1.rds.amazonaws.com"
+      ENDPOINT = aws_db_instance.test_rds.address
       PORT = 3306
       USR = var.username
       REGION = "eu-west-1"

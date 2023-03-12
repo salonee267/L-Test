@@ -6,13 +6,13 @@ import boto3
 import os
 
 # RDS endpoint details
- ENDPOINT = os.environ["ENDPOINT"]
-# PORT = 3306
-# USR = 'admin'
-# REGION = 'eu-west-1'
-# DBNAME = 'testdb'
-# PASSWORD = 'password'
-# TABLE_NAME = 'example_table'
+ENDPOINT = os.environ["ENDPOINT"]
+PORT = os.environ["PORT"]
+USR = os.environ["USR"]
+REGION = os.environ["REGION"]
+DBNAME = os.environ["DBNAME"]
+PASSWORD = os.environ["PASSWORD"]
+TABLE_NAME = os.environ["TABLE_NAME"]
 
 # Connect to the RDS instance
 try:
