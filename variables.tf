@@ -16,6 +16,12 @@ variable "db_name" {
   # default     = "testdb"
 }
 
+variable "table_name" {
+  description = "The name of the database to create when the DB instance is created"
+  type        = string
+  default     = "example_table"
+}
+
 variable "username" {
   description = "Username for the DB user"
   type        = string

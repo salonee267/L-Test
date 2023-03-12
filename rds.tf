@@ -2,6 +2,7 @@ data "template_file" "input" {
   template = "my_table.sql"
   vars = {
     db_name = var.db_name
+    table_name = var.table_name
   }
 }
 
@@ -19,7 +20,8 @@ resource "aws_db_instance" "test_rds" {
   vpc_security_group_ids = [ aws_security_group.rds_sec_grp.id]
 
   provisioner "local-exec" {
-    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < my_table.sql"
+    # command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < my_table.sql"
+    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < data.template_file.input.rendered"
   }
 }
 
