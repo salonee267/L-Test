@@ -21,7 +21,7 @@ resource "aws_db_instance" "test_rds" {
 
   provisioner "local-exec" {
     # command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < my_table.sql"
-    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < data.template_file.input.rendered"
+    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < ${data.template_file.input.rendered}"
   }
 }
 
