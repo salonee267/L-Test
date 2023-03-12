@@ -1,3 +1,10 @@
+data "template_file" "input" {
+  template = "my_table.sql"
+  vars = {
+    db_name = var.db_name
+  }
+}
+
 resource "aws_db_instance" "test_rds" {
   engine               = "mysql"
   engine_version       = "5.7"
