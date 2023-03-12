@@ -13,7 +13,7 @@ resource "aws_lambda_function" "source" {
   runtime          = "python3.8"
   timeout          = 120
 
-  # lifecycle {
+  # lifecycle { 
   #   ignore_changes = ["source_code_hash"]
   # }
   environment {
