@@ -1,5 +1,5 @@
 data "template_file" "input" {
-  template = file("${path.module}/my_sql.sql.tpl")
+  template = file("${path.module}/my_sql.tpl")
   vars = {
     db_name = var.db_name
     table_name = var.table_name
