@@ -6,6 +6,12 @@ data "template_file" "input" {
   }
 }
 
+resource "null_resource" "execute_mysql_script" {
+  provisioner "local-exec" {
+    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < ${data.template_file.input.rendered}"
+  }
+}
+
 resource "aws_db_instance" "test_rds" {
   engine               = "mysql"
   engine_version       = "5.7"
@@ -19,10 +25,10 @@ resource "aws_db_instance" "test_rds" {
   password             = var.password
   vpc_security_group_ids = [ aws_security_group.rds_sec_grp.id]
 
-  provisioner "local-exec" {
-    # command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < my_table.sql"
-    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < ${data.template_file.input.rendered}"
-  }
+  # provisioner "local-exec" {
+  #   # command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < my_table.sql"
+  #   command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < ${data.template_file.input.rendered}"
+  # }
 }
 
 resource "aws_security_group" "rds_sec_grp" {
