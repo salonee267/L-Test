@@ -3,8 +3,8 @@ terraform {
   required_version = ">= 0.12.24"
   
   backend "s3" {
-    bucket = "bucketforbackendstate"
-    key    = "bucketforbackendstate.tfstate"
+    bucket = "bucketforbackendstate-prod"
+    key    = "bucketforbackendstate-prod.tfstate"
     region = "eu-west-1"
   }
 }

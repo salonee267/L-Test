@@ -8,14 +8,25 @@ resource "aws_lambda_function" "source" {
   filename         = "lambda_function.zip"
   source_code_hash = "${data.archive_file.source.output_base64sha256}"
   function_name    = "connect_rds"
-  role             = "arn:aws:iam::645240902082:role/LambdaRoleForS3andRDS"
+  role             = var.lambda_role
   handler          = "connect_to_rds.lambda_handler"
   runtime          = "python3.8"
   timeout          = 120
 
-  # lifecycle {
+  # lifecycle { 
   #   ignore_changes = ["source_code_hash"]
   # }
+  environment {
+    variables = {
+      ENDPOINT = aws_db_instance.test_rds.address
+      PORT = 3306
+      USR = var.username
+      REGION = "eu-west-1"
+      DBNAME = var.db_name
+      PASSWORD = var.password
+      TABLE_NAME = "example_table"
+    }
+  }
 }
 
 resource "aws_lambda_permission" "allow_bucket" {

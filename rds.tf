@@ -1,19 +1,37 @@
+data "template_file" "input" {
+  template = file("${path.module}/my_table.sql.tpl")
+  vars = {
+    db_name = var.db_name
+    table_name = var.table_name
+  }
+}
+
+resource "null_resource" "execute_mysql_script" {
+  depends_on = [aws_db_instance.test_rds]
+  
+  provisioner "local-exec" {
+    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} -e '${data.template_file.input.rendered}'"
+  }
+}
+
+
 resource "aws_db_instance" "test_rds" {
   engine               = "mysql"
   engine_version       = "5.7"
   instance_class       = "db.t2.micro"
   skip_final_snapshot  = true
-  identifier           = "testdb"
-  allocated_storage    = 10
-  db_name              = "testdb"
+  identifier           = var.identifier
+  allocated_storage    = var.allocated_storage
+  db_name              = var.db_name
   publicly_accessible  = true
-  username             = "admin"
-  password             = "password"
+  username             = var.username
+  password             = var.password
   vpc_security_group_ids = [ aws_security_group.rds_sec_grp.id]
 
-  provisioner "local-exec" {
-    command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u admin -ppassword < my_table.sql"
-  }
+  # provisioner "local-exec" {
+  #   # command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < my_table.sql"
+  #   command = "mysql -h ${aws_db_instance.test_rds.address} -P 3306 -u ${var.username} -p${var.password} < ${data.template_file.input.rendered}"
+  # }
 }
 
 resource "aws_security_group" "rds_sec_grp" {
