@@ -3,7 +3,7 @@ name: Deploy Environments
 on:
   push:
     branches:
-      - higher-environments
+      - main
   workflow_dispatch:
     inputs:
       environment:
