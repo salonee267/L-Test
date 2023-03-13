@@ -7,7 +7,7 @@ import os
 
 # RDS endpoint details
 ENDPOINT = os.environ["ENDPOINT"]
-PORT = os.environ["PORT"]
+PORT = int(os.environ["PORT"])
 USR = os.environ["USR"]
 REGION = os.environ["REGION"]
 DBNAME = os.environ["DBNAME"]
