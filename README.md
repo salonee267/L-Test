@@ -77,7 +77,7 @@ Details, uses and breif introduction of the files and folders are here:
 
 # WORKFLOW OF CODE
 1. Creation of resources- RDS, S3 and lambda have been created in files- rds.tf, s3.tf and lambda.tf. 
-2. Create a CSV file in a S3 bucket with some random emails- This part is accomplished by s3.tf. This file creates an S3 bucket resource and uploads the existing content of csv file- demo.csv into s3.
+2. Create a CSV file in a S3 bucket with some random emails- This part is accomplished by s3.tf. This file creates an S3 bucket resource and S3 bucket notification configuration. Whenever we upload a csv file into s3, this is triggered.
 3. As a pre-requisite, rds.tf has been created that creates rds resource with security group and uses my_table.sql.tpl to create a table with local-exec provisioner
 4. For creating a script that reads S3 file and synchronizes it with RDS, there is a lambda function. This script exists in lambda_function/connect_to_rds.py. It connects to the existing RDS database and inserts data from a CSV file stored in S3 bucket into RDS.
  
