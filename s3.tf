@@ -31,8 +31,8 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 data "aws_iam_policy_document" "s3_sse_policy" {
   statement {
     actions   = ["s3:PutObject"]
-    # resources = ["arn:aws:s3:::my-s3-bucket/*"]
-    resources = var.bucket_name
+    resources = ["arn:aws:s3:::my-s3-bucket/*"]
+    # resources = var.bucket_name
     condition {
       test     = "StringEquals"
       variable = "s3:x-amz-server-side-encryption"
