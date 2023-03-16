@@ -52,4 +52,30 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
   policy = data.aws_iam_policy_document.s3_sse_policy.json
 }
 
+resource "aws_s3_bucket_policy" "bucket_policy1" {
+  bucket = var.bucket_name
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::${var.bucket_name}",
+        "arn:aws:s3:::${var.bucket_name}/*"
+      ],
+      "Condition": {
+        "Bool": {
+          "aws:SecureTransport": false
+        }
+      }
+    }
+  ]
+}
+EOF
+}
+
 
