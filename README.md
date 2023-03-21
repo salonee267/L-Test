@@ -1,5 +1,5 @@
 # INTRODUCTION AND OBJECTIVE 
-This repository contains code to upload a csv file to S3, read the content of this file (emails) and synchronize it with RDS database. This is used for deploying in two environments- staging and production using terraform.  
+This repository contains code where if one uploads a csv file to S3, the content of this file (i.e emailsin this case) is synchronized with RDS database. This is used for deploying in two environments- staging and production using terraform.  
 
 # REPO STRUCTURE AND HIGHER LEVEL CODE BRIEF
 
